@@ -213,6 +213,12 @@ class MinimaxPlayer(IsolationPlayer):
             raise SearchTimeout()
 
         # TODO: finish this function!
+        legal_moves = game.get_legal_moves(game.active_player)
+
+        if not legal_moves:
+            return (-1, -1)
+
+
         raise NotImplementedError
 
 
