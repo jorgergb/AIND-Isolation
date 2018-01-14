@@ -95,3 +95,8 @@ ENV/
 .ropeproject
 
 # End of https://www.gitignore.io/api/python
+isolation-190346.zip
+isolation-190349.zip
+isolation-190696.zip
+*.zip
+*.json

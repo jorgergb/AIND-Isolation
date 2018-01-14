@@ -213,13 +213,58 @@ class MinimaxPlayer(IsolationPlayer):
             raise SearchTimeout()
 
         # TODO: finish this function!
-        legal_moves = game.get_legal_moves(game.active_player)
+
+        '''
+        active_player = game.active_player
+        legal_moves = game.get_legal_moves(active_player)
 
         if not legal_moves:
             return (-1, -1)
+        '''
+
+        assert depth>=1
+        return max(game.get_legal_moves(game.active_player),
+                key=lambda m: self.min_value(game.forecast_move(m), depth-1))
+
+    def terminal_test(self, game, depth):
+
+        #timer check
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        return not bool(game.get_legal_moves(game.active_player))
 
 
-        raise NotImplementedError
+
+    def min_value(self, game, depth):
+
+        ## timer check
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+
+        if self.terminal_test(game, depth):
+            return 1
+
+        v = float("inf")
+        for m in game.get_legal_moves(game.active_player):
+            v = min(v, self.max_value(game.forecast_move(m), depth-1))
+
+        return v
+
+    def max_value(self, game, depth):
+
+        ## timer check
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if self.terminal_test(game, depth):
+            return -1
+        v = float("-inf")
+        for m in game.get_legal_moves(game.active_player):
+            v = max(v, self.max_value(game.forecast_move(m), depth-1))
+        return v
+
 
 
 class AlphaBetaPlayer(IsolationPlayer):
