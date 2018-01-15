@@ -217,7 +217,7 @@ class MinimaxPlayer(IsolationPlayer):
         if len(game.get_legal_moves())==0:
             return (-1,-1)
 
-        assert depth>=1
+        #assert depth>=1
         return max(game.get_legal_moves(),
                 key=lambda m: self.min_value(game.forecast_move(m), depth-1))
 
@@ -242,7 +242,7 @@ class MinimaxPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return 1
 
-        if depth==0:
+        if depth<=0:
             return self.score(game, self)
 
         v = float("inf")
@@ -260,7 +260,7 @@ class MinimaxPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return -1
 
-        if depth==0:
+        if depth<=0:
             return self.score(game, self)
 
         v = float("-inf")
@@ -377,17 +377,20 @@ class AlphaBetaPlayer(IsolationPlayer):
         if len(game.get_legal_moves())==0:
             return (-1, -1)
 
-        assert depth>=1
+        #assert depth>=1
 
-        #best_score = float("-inf")
+        
         best_move = None
-        v = float('-inf')
+        best_score = float('-inf')
 
         for m in game.get_legal_moves():
-            v = max(v, self.min_value(game.forecast_move(m),depth-1,alpha,beta))
-            if v>alpha:
-                alpha=v
+            v = self.min_value(game.forecast_move(m),depth-1,alpha,beta)
+            if v>best_score:
+                best_score=v
                 best_move=m
+            if v >= beta:
+                return best_move
+            alpha = max(v, alpha)
 
         return best_move
 
@@ -412,7 +415,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return 1
 
-        if depth == 0:
+        if depth <= 0:
             return self.score(game, self)
 
         v = float('inf')
@@ -432,7 +435,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return -1
 
-        if depth==0:
+        if depth<=0:
             return self.score(game, self)
 
         v = float("-inf")
