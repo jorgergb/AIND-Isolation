@@ -214,11 +214,11 @@ class MinimaxPlayer(IsolationPlayer):
 
         # TODO: finish this function!
 
-        if len(game.get_legal_moves(game.active_player))==0:
+        if len(game.get_legal_moves())==0:
             return (-1,-1)
 
         assert depth>=1
-        return max(game.get_legal_moves(game.active_player),
+        return max(game.get_legal_moves(),
                 key=lambda m: self.min_value(game.forecast_move(m), depth-1))
 
 
@@ -228,7 +228,7 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        return not bool(game.get_legal_moves(game.active_player))
+        return not bool(game.get_legal_moves())
 
 
 
@@ -246,7 +246,7 @@ class MinimaxPlayer(IsolationPlayer):
             return self.score(game, self)
 
         v = float("inf")
-        for m in game.get_legal_moves(game.active_player):
+        for m in game.get_legal_moves():
             v = min(v, self.max_value(game.forecast_move(m), depth-1))
 
         return v
@@ -264,7 +264,7 @@ class MinimaxPlayer(IsolationPlayer):
             return self.score(game, self)
 
         v = float("-inf")
-        for m in game.get_legal_moves(game.active_player):
+        for m in game.get_legal_moves():
             v = max(v, self.min_value(game.forecast_move(m), depth-1))
         return v
 
@@ -374,7 +374,7 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         # TODO: finish this function!
 
-        if len(game.get_legal_moves(game.active_player))==0:
+        if len(game.get_legal_moves())==0:
             return (-1, -1)
 
         assert depth>=1
@@ -402,7 +402,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        return not bool(game.get_legal_moves(game.active_player))
+        return not bool(game.get_legal_moves())
 
     def min_value(self, game, depth, alpha, beta):
         #timer check
@@ -416,7 +416,7 @@ class AlphaBetaPlayer(IsolationPlayer):
             return self.score(game, self)
 
         v = float('inf')
-        for m in game.get_legal_moves(game.active_player):
+        for m in game.get_legal_moves():
             v = min(v, self.max_value(game.forecast_move(m), depth-1, alpha, beta))
             if v <= alpha:
                 return v
@@ -436,7 +436,7 @@ class AlphaBetaPlayer(IsolationPlayer):
             return self.score(game, self)
 
         v = float("-inf")
-        for m in game.get_legal_moves(game.active_player):
+        for m in game.get_legal_moves():
             v = max(v, self.min_value(game.forecast_move(m), depth-1, alpha, beta))
             if v>=beta:
                 return v
