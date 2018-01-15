@@ -35,7 +35,13 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    opponent = game.get_opponent(player)
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(opponent))
+
+    h1 = float(my_moves - opponent_moves)
+
+    return h1
 
 
 def custom_score_2(game, player):
@@ -61,8 +67,13 @@ def custom_score_2(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    opponent = game.get_opponent(player)
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(opponent))
 
+    h2 = float(my_moves - 2*opponent_moves)
+
+    return h2
 
 def custom_score_3(game, player):
     """Calculate the heuristic value of a game state from the point of view
