@@ -311,13 +311,16 @@ class AlphaBetaPlayer(IsolationPlayer):
         # TODO: finish this function!
         best_move = (-1, -1)
 
+        try:
+            for depth in range(0,100):
+                best_move = self.alphabeta(game, depth)
+        except SearchTimeout:
+            pass
         #iterative deepening
-        for depth in range(0,10):
+        #for depth in range(0,100):
 
-            try:
-                return self.alphabeta(game, depth)
-            except SearchTimeout:
-                break
+        #    try:
+        #        return self.alphabeta(game, depth)
 
         return best_move
 
@@ -376,7 +379,7 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         assert depth>=1
 
-        best_score = float("-inf")
+        #best_score = float("-inf")
         best_move = None
         v = float('-inf')
 
@@ -406,8 +409,8 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        #if self.terminal_test(game, depth):
-        #    return 1
+        if self.terminal_test(game, depth):
+            return 1
 
         if depth == 0:
             return self.score(game, self)
@@ -426,8 +429,8 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        #if self.terminal_test(game, depth):
-        #    return -1
+        if self.terminal_test(game, depth):
+            return -1
 
         if depth==0:
             return self.score(game, self)
