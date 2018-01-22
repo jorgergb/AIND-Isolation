@@ -39,7 +39,7 @@ def custom_score(game, player):
     my_moves = len(game.get_legal_moves(player))
     opponent_moves = len(game.get_legal_moves(opponent))
 
-    h1 = float(my_moves - 2*opponent_moves)
+    h1 = float(my_moves - opponent_moves)
 
     return h1
 
@@ -70,14 +70,8 @@ def custom_score_2(game, player):
     opponent = game.get_opponent(player)
     my_moves = len(game.get_legal_moves(player))
     opponent_moves = len(game.get_legal_moves(opponent))
-    agg_factor = 1
 
-    if my_moves-opponent_moves<=0:
-        agg_factor = 3
-    else:
-        agg_factor = 1
-
-    h2 = float(my_moves - agg_factor*opponent_moves)
+    h2 = float(my_moves - 2*opponent_moves)
 
     return h2
 
@@ -104,22 +98,7 @@ def custom_score_3(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    opponent = game.get_opponent(player)
-    
-    height = game.height/2
-    width  = game.width/2
-
-    posx, posy = game.get_player_location(player)
-    posx_o, posy_o = game.get_player_location(opponent)
-
-    center = abs(height-posy)+abs(width-posx)
-    center_opp =  abs(height-posy_o)+abs(width-posx_o)
-    my_moves = len(game.get_legal_moves(player))
-    opponent_moves = len(game.get_legal_moves(opponent))
-
-    h3 = float((center*my_moves)-(center_opp*opponent_moves))
-
-    return h3
+    raise NotImplementedError
 
 
 class IsolationPlayer:
@@ -447,7 +426,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return 1
 
-        if depth == 0:
+        if depth <= 0:
             return self.score(game, self)
 
         v = float('inf')
@@ -467,7 +446,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.terminal_test(game, depth):
             return -1
 
-        if depth==0:
+        if depth<=0:
             return self.score(game, self)
 
         v = float("-inf")
